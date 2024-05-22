@@ -42,13 +42,10 @@ pidict = {"xx": surface[:,11], "xy": surface[:,12], "yy": surface[:,13]}
 
 surfaceobj = frzout.Surface(x, sigma, v, pi=pidict, Pi=surface[:,15], ymax=2)
 
-maxsamples = params['main']['maxsamples']
-file_n = params['main']['num_of_urqmd_jobs']
-if file_n == 0: file_n = 1
-file_names = [open('particles_in_%d.dat' % i, 'w') for i in range(file_n)]
+maxsamples = params['frzout']['maxsamples']
+f =  open('particles_in.dat', 'w')
 
 for nsamples in range(maxsamples):
-    f = file_names[nsamples % params['main']['num_of_urqmd_jobs']]
     parts = frzout.sample(surfaceobj, hrg)
     if parts.size == 0:
         continue
@@ -61,4 +58,4 @@ for nsamples in range(maxsamples):
             print(p['p'][ip], end=" ", file=f)
         print(p['p'][len(p['p'])-1], file=f)
 
-for f in file_names: f.close()
+f.close()
